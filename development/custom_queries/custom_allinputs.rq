@@ -1,0 +1,37 @@
+#+ summary: Given a configuration URI returns all inputs, variables and units.
+PREFIX sd: <https://w3id.org/okn/o/sd#>
+PREFIX sdm: <https://w3id.org/okn/o/sdm#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+
+CONSTRUCT {
+    ?input ?predicate ?prop .
+    ?prop a ?type .
+    ?prop rdfs:label ?label .
+    ?vp sd:hasStandardVariable ?sv .
+    ?sv rdfs:label ?svlabel .
+    ?vp sd:usesUnit ?unit .
+    ?unit rdfs:label ?unitlabel .
+    ?sv a ?svtype .
+    ?unit a ?unittype
+}
+WHERE {
+    GRAPH ?_g_iri {
+        ?_resource_iri sd:hasInput ?input .
+        ?input ?predicate ?prop .
+	    optional { ?prop a ?type }
+	    optional { ?prop rdfs:label ?label }
+
+        optional {?input sd:hasPresentation ?vp }
+        optional {
+      		?vp sd:hasStandardVariable ?sv .
+      		?sv rdfs:label ?svlabel .
+      		?sv a ?svtype
+    	}
+        optional {
+      		?vp sd:usesUnit ?unit .
+      		?unit rdfs:label ?unitlabel .
+      		?unit a ?unittype
+    	}
+    }
+}
