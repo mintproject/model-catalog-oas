@@ -3,83 +3,78 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX sdm: <https://w3id.org/okn/o/sdm#>
 
 CONSTRUCT {
-?_resource_iri ?predicate ?prop .
-?prop ?p ?o .
-?input_resource ?input_resource_p ?input_resource_o .
-?output_resource ?output_resource_p ?output_resource_o .
-?parameter ?parameter_p ?parameter_o .
-?region ?region_p ?region_o .
-?region_o ?sub_region_p ?sub_region_o .
-?grid ?grid_p ?grid_o .
-?process ?process_p ?process_o .
-?variable_presentation ?variable_presentation_o ?variable_presentation_p .
-?variable_presentation_output ?variable_presentation_o_output ?variable_presentation_p_output .
-?variable_presentation_p ?variable_o ?variable_p .
-?variable_presentation_p_output ?variable_o_output ?variable_p_output .
-?unit ?unit_p ?unit_o
+    ?_resource_iri ?predicate ?obj .
+    ?obj ?p ?o .
+    ?region_object sdm:partOf ?parent_region .
+    ?parent_region ?prp ?pro .
+    ?parent_region sdm:partOf ?parent_parent_region .
+    ?parent_parent_region ?pprp ?ppro .
+    ?robj ?unit_prop ?unit_resource .
+    ?unit_resource ?unit_p ?unit_o .
+    ?vobj ?var_prop ?var_resource .
+    ?var_resource ?var_p ?var_o .
+    ?var_resource sd:usesUnit ?var_unit .
+    ?var_unit ?var_unit_p ?var_unit_o .
+    ?var_resource sd:hasStandardVariable ?var_sv .
+    ?var_sv ?var_sv_p ?var_sv_o .
+    ?svobj ?sv_prop ?sv_resource .
+    ?sv_resource ?sv_p ?sv_o .
+    ?fixed_resource ?fr_p ?fr_o .
+    ?fixed_resource sd:hasPart ?part .
+    ?part ?part_p ?part_o .
 }
 WHERE {
     GRAPH ?_g_iri {
         {
-            ?_resource_iri ?predicate ?prop .
+            ?_resource_iri ?predicate ?obj .
             OPTIONAL {
-                ?prop ?p ?o .
+                ?obj ?p ?o .
         		FILTER (?p != <https://w3id.org/okn/o/sdm#geo>) .
-        		FILTER (?p != <https://w3id.org/okn/o/sdm#hasPart>)
+        		FILTER (?p != <https://w3id.org/okn/o/sdm#hasPart>) .
+                FILTER (?p != <https://w3id.org/okn/o/sdm#influences>)
+            }
+        } UNION { #Region and subregions
+            ?_resource_iri sdm:hasRegion ?region_object .
+            ?region_object a sdm:Region .
+            ?region_object sdm:partOf ?parent_region .
+            ?parent_region ?prp ?pro .
+            OPTIONAL {
+                ?parent_region sdm:partOf ?parent_parent_region .
+                ?parent_parent_region ?pprp ?ppro .
+            }
+        } UNION { # Units
+            ?_resource_iri ?predicate ?robj .
+            ?robj ?unit_prop ?unit_resource .
+            ?unit_resource a sd:Unit .
+            ?unit_resource ?unit_p ?unit_o
+        } UNION { # Standard variables
+            ?_resource_iri ?predicate ?svobj .
+            ?svobj ?sv_prop ?sv_resource .
+            ?sv_resource a sd:StandardVariable .
+            ?sv_resource ?sv_p ?sv_o
+        } UNION { # Variable presentations
+            ?_resource_iri ?predicate ?vobj .
+            ?vobj ?var_prop ?var_resource .
+            FILTER (?var_prop != <https://w3id.org/okn/o/sdm#influences>)
+            ?var_resource a sd:VariablePresentation .
+            ?var_resource ?var_p ?var_o
+            OPTIONAL { # Units 
+                ?var_resource sd:usesUnit ?var_unit .
+                ?var_unit ?var_unit_p ?var_unit_o .
+            }
+            OPTIONAL { # standard variables
+                ?var_resource sd:hasStandardVariable ?var_sv .
+                ?var_sv ?var_sv_p ?var_sv_o .
+            }
+        } UNION { # Single File
+            ?_resource_iri sd:hasInput ?inputds .
+            ?inputds sd:hasFixedResource ?fixed_resource .
+            ?fixed_resource ?fr_p ?fr_o .
+            OPTIONAL { # For collection FIXME: this is not working!
+                ?fixed_resource a sd:SampleCollection .
+                ?fixed_resource sd:hasPart ?part .
+                ?part ?part_p ?part_o .
             }
         }
-        UNION {
-            ?_resource_iri  sd:hasInput ?input
-            OPTIONAL {
-               ?input sd:hasFixedResource ?input_resource  .
-               ?input_resource ?input_resource_p ?input_resource_o
-            }
-            OPTIONAL {
-               ?input sd:hasPresentation ?variable_presentation .
-               ?variable_presentation ?variable_presentation_o ?variable_presentation_p .
-               ?variable_presentation_p ?variable_o ?variable_p
-            }
-
-        }
-        UNION {
-            ?_resource_iri  sdm:hasOutputTimeInterval ?output_time_interval_resource .
-            ?output_time_interval_resource sdm:intervalUnit ?unit .
-            OPTIONAL {
-                ?unit ?unit_p ?unit_o
-            }
-        }
-        UNION {
-            ?_resource_iri  sd:hasOutput ?output_resource .
-            ?output_resource ?output_resource_p ?output_resource_o
-            OPTIONAL {
-               ?output_resource sd:hasPresentation ?variable_presentation_output .
-               ?variable_presentation_output ?variable_presentation_o_output ?variable_presentation_p_output .
-               ?variable_presentation_p_output ?variable_o_output ?variable_p_output
-
-            }
-        }
-        UNION {
-            ?_resource_iri  sd:hasParameter ?parameter .
-            ?parameter ?parameter_p ?parameter_o
-        }
-        UNION {
-            ?_resource_iri sdm:hasRegion ?region .
-            ?region ?region_p ?region_o .
-            OPTIONAL {
-                ?region_o ?sub_region_p ?sub_region_o
-                FILTER (?sub_region_p != <https://w3id.org/okn/o/sdm#geo>) .
-
-            }
-            FILTER (?region_p != <https://w3id.org/okn/o/sdm#geo>)
-       }
-       UNION {
-            ?_resource_iri sdm:hasGrid ?grid .
-            ?grid ?grid_p ?grid_o .
-       }
-       UNION {
-            ?_resource_iri sdm:hasProcess ?process .
-            ?process ?process_p ?process_o .
-            FILTER (?process_p != <https://w3id.org/okn/o/sdm#influences>)
-       }
     }
 }

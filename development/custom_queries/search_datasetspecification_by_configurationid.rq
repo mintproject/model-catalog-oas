@@ -17,7 +17,7 @@ CONSTRUCT {
 }
 WHERE {
     GRAPH ?_g_iri {
-        ?_configurationid sd:hasInput ?input .
+        ?_resource_iri sd:hasInput ?input .
         ?input ?predicate ?prop .
 	    optional { ?prop a ?type }
 	    optional { ?prop rdfs:label ?label }

@@ -1,14 +1,14 @@
 ontologies:
   - https://w3id.org/okn/o/sdm/1.7.0-nm
   - https://w3id.org/okn/o/sd/1.8.0-nm
-name: modelcatalog
-output_dir: outputs
+name: model-catalog
+output_dir: .
 openapi:
   openapi: 3.0.1
   info:
     description: This is the API of the Software Description Ontology at [https://w3id.org/okn/o/sdm](https://w3id.org/okn/o/sdm)
     title: Model Catalog
-    version: v1.7.2
+    version: v1.7.0
   externalDocs:
     description: Model Catalog
     url: https://w3id.org/okn/o/sdm
@@ -25,7 +25,7 @@ endpoint:
   prefix: https://w3id.org/okn/i/mint
   graph_base: http://endpoint.mint.isi.edu/modelCatalog-1.7.0/data/
 
-custom_queries_directory: examples/modelcatalog_full/custom_queries
+custom_queries_directory: development/custom_queries
 
 enable_get_paths: true
 enable_post_paths: true
@@ -374,7 +374,42 @@ custom_paths:
       summary: Gets a list of data transformations related a dataset
       tags:
         - DataTransformation
-  /custom/modelconfigurations/{id}/inputs:
+  /custom/datasetspecifications:
+    get:
+      description: Gets all inputs of a configuration
+      parameters:
+      - description: Username to query
+        in: query
+        name: username
+        required: false
+        schema:
+          type: string
+      - description: The ID of the configuration
+        in: query
+        name: configurationid
+        required: true
+        schema:
+          type: string
+      - description: Name of the custom query
+        in: query
+        name: custom_query_name
+        required: false
+        schema:
+          default: custom_allinputs
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DatasetSpecification'
+                type: array
+          description: Gets all inputs of a configuration
+      summary: Gets all inputs of a configuration
+      tags:
+      - DatasetSpecification
+  /custom/configuration/{id}/inputs:
     get:
       description: Gets all inputs of a configuration
       parameters:
@@ -395,14 +430,16 @@ custom_paths:
         name: custom_query_name
         required: false
         schema:
-          default: custom_allinputs
+          default: search_datasetspecification_by_configurationid
           type: string
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DatasetSpecification'
+                items:
+                  $ref: '#/components/schemas/DatasetSpecification'
+                type: array
           description: Gets all inputs of a configuration
       summary: Gets all inputs of a configuration
       tags:

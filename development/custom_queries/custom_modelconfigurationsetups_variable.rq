@@ -8,6 +8,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 CONSTRUCT {
     ?setup ?predicate ?prop .
     ?prop a ?type .
+    ?prop rdfs:label ?label .
     ?region ?region_p ?region_o .
     ?region_o ?sub_region_p ?sub_region_o .
 }
@@ -26,13 +27,12 @@ WHERE {
                   FILTER REGEX(?variableLabel, ?_label, "i")
                 }
             }
+
             {
                 ?setup ?predicate ?prop
-                OPTIONAL {
-                 ?prop a ?type
-                }
-            }
-            UNION {
+                OPTIONAL { ?prop a ?type }
+                OPTIONAL { ?prop rdfs:label ?label }
+            } UNION {
                 ?setup sdm:hasRegion ?region .
                 ?region ?region_p ?region_o .
                 FILTER (?region_p != <https://w3id.org/okn/o/sdm#geo>) .
