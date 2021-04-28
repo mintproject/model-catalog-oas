@@ -337,6 +337,167 @@ paths:
       summary: Update an existing ConfigurationSetup
       tags:
       - ConfigurationSetup
+  /constraints:
+    get:
+      description: Gets a list of all instances of Constraint (more information in
+        https://w3id.org/okn/o/sd#Constraint)
+      parameters:
+      - description: Name of the user graph to query
+        in: query
+        name: username
+        required: false
+        schema:
+          type: string
+      - description: Filter by label
+        in: query
+        name: label
+        required: false
+        schema:
+          type: string
+      - description: Page number
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          format: int32
+          type: integer
+      - description: Items per page
+        in: query
+        name: per_page
+        required: false
+        schema:
+          default: 100
+          format: int32
+          maximum: 200
+          minimum: 1
+          type: integer
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Constraint'
+                type: array
+          description: Successful response - returns an array with the instances of
+            Constraint.
+      summary: List all instances of Constraint
+      tags:
+      - Constraint
+    post:
+      description: Create a new instance of Constraint (more information in https://w3id.org/okn/o/sd#Constraint)
+      parameters:
+      - description: Username
+        in: query
+        name: user
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Constraint'
+        description: Information about the Constraintto be created
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Constraint'
+          description: Created
+      security:
+      - BearerAuth: []
+      summary: Create one Constraint
+      tags:
+      - Constraint
+  /constraints/{id}:
+    delete:
+      description: Delete an existing Constraint (more information in https://w3id.org/okn/o/sd#Constraint)
+      parameters:
+      - description: The ID of the Constraint to be retrieved
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Username
+        in: query
+        name: user
+        required: false
+        schema:
+          type: string
+      responses:
+        202:
+          description: Deleted
+        404:
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Delete an existing Constraint
+      tags:
+      - Constraint
+    get:
+      description: Gets the details of a given Constraint (more information in https://w3id.org/okn/o/sd#Constraint)
+      parameters:
+      - description: Name of the user graph to query
+        in: query
+        name: username
+        required: false
+        schema:
+          type: string
+      - description: The ID of the Constraint to be retrieved
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Constraint'
+          description: Gets the details of a given Constraint
+      summary: Get a single Constraint by its id
+      tags:
+      - Constraint
+    put:
+      description: Updates an existing Constraint (more information in https://w3id.org/okn/o/sd#Constraint)
+      parameters:
+      - description: The ID of the Constraint to be retrieved
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      - description: Username
+        in: query
+        name: user
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Constraint'
+        description: An old Constraintto be updated
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Constraint'
+          description: Updated
+        404:
+          description: Not Found
+      security:
+      - BearerAuth: []
+      summary: Update an existing Constraint
+      tags:
+      - Constraint
   /datatransformations:
     get:
       description: Gets a list of all instances of DataTransformation (more information
@@ -4061,167 +4222,6 @@ paths:
       summary: Update an existing CausalDiagram
       tags:
       - CausalDiagram
-  /constraints:
-    get:
-      description: Gets a list of all instances of Constraint (more information in
-        https://w3id.org/okn/o/sdm#Constraint)
-      parameters:
-      - description: Name of the user graph to query
-        in: query
-        name: username
-        required: false
-        schema:
-          type: string
-      - description: Filter by label
-        in: query
-        name: label
-        required: false
-        schema:
-          type: string
-      - description: Page number
-        in: query
-        name: page
-        required: false
-        schema:
-          default: 1
-          format: int32
-          type: integer
-      - description: Items per page
-        in: query
-        name: per_page
-        required: false
-        schema:
-          default: 100
-          format: int32
-          maximum: 200
-          minimum: 1
-          type: integer
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Constraint'
-                type: array
-          description: Successful response - returns an array with the instances of
-            Constraint.
-      summary: List all instances of Constraint
-      tags:
-      - Constraint
-    post:
-      description: Create a new instance of Constraint (more information in https://w3id.org/okn/o/sdm#Constraint)
-      parameters:
-      - description: Username
-        in: query
-        name: user
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Constraint'
-        description: Information about the Constraintto be created
-      responses:
-        201:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Constraint'
-          description: Created
-      security:
-      - BearerAuth: []
-      summary: Create one Constraint
-      tags:
-      - Constraint
-  /constraints/{id}:
-    delete:
-      description: Delete an existing Constraint (more information in https://w3id.org/okn/o/sdm#Constraint)
-      parameters:
-      - description: The ID of the Constraint to be retrieved
-        in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      - description: Username
-        in: query
-        name: user
-        required: false
-        schema:
-          type: string
-      responses:
-        202:
-          description: Deleted
-        404:
-          description: Not Found
-      security:
-      - BearerAuth: []
-      summary: Delete an existing Constraint
-      tags:
-      - Constraint
-    get:
-      description: Gets the details of a given Constraint (more information in https://w3id.org/okn/o/sdm#Constraint)
-      parameters:
-      - description: Name of the user graph to query
-        in: query
-        name: username
-        required: false
-        schema:
-          type: string
-      - description: The ID of the Constraint to be retrieved
-        in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Constraint'
-          description: Gets the details of a given Constraint
-      summary: Get a single Constraint by its id
-      tags:
-      - Constraint
-    put:
-      description: Updates an existing Constraint (more information in https://w3id.org/okn/o/sdm#Constraint)
-      parameters:
-      - description: The ID of the Constraint to be retrieved
-        in: path
-        name: id
-        required: true
-        schema:
-          type: string
-      - description: Username
-        in: query
-        name: user
-        required: false
-        schema:
-          type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Constraint'
-        description: An old Constraintto be updated
-      responses:
-        200:
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Constraint'
-          description: Updated
-        404:
-          description: Not Found
-      security:
-      - BearerAuth: []
-      summary: Update an existing Constraint
-      tags:
-      - Constraint
   /coupledmodels:
     get:
       description: Gets a list of all instances of CoupledModel (more information
@@ -8144,18 +8144,6 @@ components:
             type: string
           nullable: true
           type: array
-        hasMinimumValue:
-          description: Minimum value that a variable can take in this constraint
-          items:
-            type: string
-          nullable: true
-          type: array
-        hasMaximumValue:
-          description: Maximum value that a variable can take in this constraint
-          items:
-            type: string
-          nullable: true
-          type: array
         id:
           description: identifier
           nullable: false
@@ -8172,9 +8160,15 @@ components:
             type: string
           nullable: true
           type: array
+        hasRule:
+          description: Rule that defines this constraint
+          items:
+            type: string
+          nullable: true
+          type: array
         hasVariable:
-          description: Property that links a constraint to the presentation of a variable
-            that will test it
+          description: Property that links a rule and the variable that will test
+            it
           items:
             $ref: '#/components/schemas/VariablePresentation'
           nullable: true
@@ -9108,13 +9102,13 @@ components:
           nullable: true
           type: array
         hasConstraint:
-          description: 'Constraint or rule associated to a  variable or software configuration.
+          description: 'Constraint or rule associated to a software configuration.
             For example: "This model accepts only monthly data", or "all inputs of
             this model configuration must share the same location". More structured
             restrictions, such as Jena rules or SWRL rules may also be captured with
             this property'
           items:
-            type: string
+            $ref: '#/components/schemas/Constraint'
           nullable: true
           type: array
         hasBuildFile:
@@ -9580,7 +9574,7 @@ components:
           nullable: true
           type: array
         hasConstraint:
-          description: Data constraints for this configuration
+          description: Description not available
           items:
             $ref: '#/components/schemas/Constraint'
           nullable: true
@@ -11393,7 +11387,7 @@ components:
           nullable: true
           type: array
         hasConstraint:
-          description: Data constraints for this configuration
+          description: Description not available
           items:
             $ref: '#/components/schemas/Constraint'
           nullable: true
@@ -12104,13 +12098,13 @@ components:
           nullable: true
           type: array
         hasConstraint:
-          description: 'Constraint or rule associated to a  variable or software configuration.
+          description: 'Constraint or rule associated to a software configuration.
             For example: "This model accepts only monthly data", or "all inputs of
             this model configuration must share the same location". More structured
             restrictions, such as Jena rules or SWRL rules may also be captured with
             this property'
           items:
-            type: string
+            $ref: '#/components/schemas/Constraint'
           nullable: true
           type: array
         hasBuildFile:
@@ -13138,13 +13132,13 @@ components:
           nullable: true
           type: array
         hasConstraint:
-          description: 'Constraint or rule associated to a  variable or software configuration.
+          description: 'Constraint or rule associated to a software configuration.
             For example: "This model accepts only monthly data", or "all inputs of
             this model configuration must share the same location". More structured
             restrictions, such as Jena rules or SWRL rules may also be captured with
             this property'
           items:
-            type: string
+            $ref: '#/components/schemas/Constraint'
           nullable: true
           type: array
         hasBuildFile:
@@ -14524,13 +14518,13 @@ components:
           nullable: true
           type: array
         hasConstraint:
-          description: 'Constraint or rule associated to a  variable or software configuration.
+          description: 'Constraint or rule associated to a software configuration.
             For example: "This model accepts only monthly data", or "all inputs of
             this model configuration must share the same location". More structured
             restrictions, such as Jena rules or SWRL rules may also be captured with
             this property'
           items:
-            type: string
+            $ref: '#/components/schemas/Constraint'
           nullable: true
           type: array
         hasBuildFile:
@@ -15504,61 +15498,6 @@ components:
             - type: string
           nullable: true
           type: array
-        hasStandardVariable:
-          description: the standard name of a variable
-          items:
-            $ref: '#/components/schemas/StandardVariable'
-          maxItems: 1
-          nullable: true
-          type: array
-        hasMaximumAcceptedValue:
-          description: Maximum accepted value of a variable presentation (or a parameter)
-          items:
-            anyOf:
-            - format: date-time
-              type: string
-            - format: float
-              type: number
-            - format: int32
-              type: integer
-          nullable: true
-          type: array
-        hasConstraint:
-          description: 'Constraint or rule associated to a  variable or software configuration.
-            For example: "This model accepts only monthly data", or "all inputs of
-            this model configuration must share the same location". More structured
-            restrictions, such as Jena rules or SWRL rules may also be captured with
-            this property'
-          items:
-            type: string
-          nullable: true
-          type: array
-        description:
-          description: small description
-          items:
-            type: string
-          nullable: true
-          type: array
-        label:
-          description: short description of the resource
-          items:
-            type: string
-          nullable: true
-          type: array
-        type:
-          description: type of the resource
-          items:
-            type: string
-          nullable: true
-          type: array
-        hasLongName:
-          description: Properties that relate the variable representation to its long
-            name. The long name is useful for context (e.g., precipitation is less
-            ambiguous than P) but not as precise as the standard name.
-          items:
-            type: string
-          nullable: true
-          type: array
         hasShortName:
           description: A short name (e.g., temperature) capturing the high-level concept
             of the variable
@@ -15578,6 +15517,31 @@ components:
               type: integer
           nullable: true
           type: array
+        hasStandardVariable:
+          description: the standard name of a variable
+          items:
+            $ref: '#/components/schemas/StandardVariable'
+          maxItems: 1
+          nullable: true
+          type: array
+        hasMaximumAcceptedValue:
+          description: Maximum accepted value of a variable presentation (or a parameter)
+          items:
+            anyOf:
+            - format: date-time
+              type: string
+            - format: float
+              type: number
+            - format: int32
+              type: integer
+          nullable: true
+          type: array
+        description:
+          description: small description
+          items:
+            type: string
+          nullable: true
+          type: array
         partOfDataset:
           description: Associates a presentation with a dataset where the presentation
             occurs
@@ -15589,12 +15553,32 @@ components:
           description: identifier
           nullable: false
           type: string
+        label:
+          description: short description of the resource
+          items:
+            type: string
+          nullable: true
+          type: array
         usesUnit:
           description: Property used to link a variable presentation or time interval
             to the unit they are represented in
           items:
             $ref: '#/components/schemas/Unit'
           maxItems: 1
+          nullable: true
+          type: array
+        type:
+          description: type of the resource
+          items:
+            type: string
+          nullable: true
+          type: array
+        hasLongName:
+          description: Properties that relate the variable representation to its long
+            name. The long name is useful for context (e.g., precipitation is less
+            ambiguous than P) but not as precise as the standard name.
+          items:
+            type: string
           nullable: true
           type: array
       type: object
@@ -15717,17 +15701,17 @@ components:
             type: string
           nullable: true
           type: array
+        contributor:
+          description: Contributor to a software component
+          items:
+            $ref: '#/components/schemas/Person'
+          nullable: true
+          type: array
         compatibleVisualizationSoftware:
           description: Property that links a software component to other useful software
             that canbe used to visualize its outputs
           items:
             $ref: '#/components/schemas/Software'
-          nullable: true
-          type: array
-        contributor:
-          description: Contributor to a software component
-          items:
-            $ref: '#/components/schemas/Person'
           nullable: true
           type: array
         copyrightHolder:
