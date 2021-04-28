@@ -22,6 +22,7 @@ CONSTRUCT {
     ?fixed_resource ?fr_p ?fr_o .
     ?fixed_resource sd:hasPart ?part .
     ?part ?part_p ?part_o .
+    ?constraint ?cr_p ?cr_o .
 }
 WHERE {
     GRAPH ?_g_iri {
@@ -75,6 +76,9 @@ WHERE {
                 ?fixed_resource sd:hasPart ?part .
                 ?part ?part_p ?part_o .
             }
+        } UNION {
+            ?_resource_iri sd:hasConstraint ?constraint .
+            ?constraint ?cr_p ?cr_o .
         }
     }
 }
