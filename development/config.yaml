@@ -1,6 +1,6 @@
 ontologies:
-  - https://w3id.org/okn/o/sdm/1.7.0-nm
-  - https://w3id.org/okn/o/sd/1.8.0-nm
+  - https://w3id.org/okn/o/sdm/1.8.0-nm
+  - https://w3id.org/okn/o/sd/1.9.0-nm
 name: model-catalog
 output_dir: .
 openapi:
@@ -8,22 +8,22 @@ openapi:
   info:
     description: This is the API of the Software Description Ontology at [https://w3id.org/okn/o/sdm](https://w3id.org/okn/o/sdm)
     title: Model Catalog
-    version: v1.7.0
+    version: v1.8.0
   externalDocs:
     description: Model Catalog
     url: https://w3id.org/okn/o/sdm
   servers:
-    - url: https://api.models.mint.isi.edu/v1.7.0
-    - url: http://localhost:8080/v1.7.0
-    - url: https://api.models.wildfire.mint.isi.edu/v1.7.0
+    - url: https://api.models.mint.isi.edu/v1.8.0
+    - url: http://localhost:8080/v1.8.0
+    - url: https://api.models.wifire.mint.isi.edu/v1.8.0
 
 firebase:
   key: "test"
 
 endpoint:
-  url: https://endpoint.mint.isi.edu/modelCatalog-1.7.0
+  url: https://endpoint.mint.isi.edu/modelCatalog-1.8.0
   prefix: https://w3id.org/okn/i/mint
-  graph_base: http://endpoint.mint.isi.edu/modelCatalog-1.7.0/data/
+  graph_base: http://endpoint.mint.isi.edu/modelCatalog-1.8.0/data/
 
 custom_queries_directory: development/custom_queries
 

@@ -2,14 +2,14 @@ openapi: 3.0.1
 info:
   description: This is the API of the Software Description Ontology at [https://w3id.org/okn/o/sdm](https://w3id.org/okn/o/sdm)
   title: Model Catalog
-  version: v1.7.0
+  version: v1.8.0
 externalDocs:
   description: Model Catalog
   url: https://w3id.org/okn/o/sdm
 servers:
-- url: https://api.models.mint.isi.edu/v1.7.0
-- url: http://localhost:8080/v1.7.0
-- url: https://api.models.wildfire.mint.isi.edu/v1.7.0
+- url: https://api.models.mint.isi.edu/v1.8.0
+- url: http://localhost:8080/v1.8.0
+- url: https://api.models.wifire.mint.isi.edu/v1.8.0
 paths:
   /catalogidentifiers:
     get:
